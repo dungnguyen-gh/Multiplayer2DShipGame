@@ -11,5 +11,10 @@ public class MoveShip : NetworkBehaviour
 
         Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         transform.Translate((Vector3)input * speed * Time.deltaTime);
+
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
     }
 }

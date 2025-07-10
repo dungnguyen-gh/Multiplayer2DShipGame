@@ -13,7 +13,14 @@ public class ScoreBoardUIManager : MonoBehaviour
     {
         instance = this;
     }
-
+    public void ClearAllRows()
+    {
+        foreach (var row in playerRows.Values)
+        {
+            Destroy(row.gameObject);
+        }
+        playerRows.Clear();
+    }
     public void AddPlayer(string name)
     {
         if (playerRows.ContainsKey(name)) return;
@@ -31,7 +38,13 @@ public class ScoreBoardUIManager : MonoBehaviour
         row.UpdateScore(newScore);
         SortRows();
     }
-
+    public void RemovePlayer(string name)
+    {
+        if (!playerRows.TryGetValue(name, out var ui)) return;
+        Destroy(ui.gameObject);
+        playerRows.Remove(name);
+        SortRows();
+    }
     void SortRows()
     {
         var entries = new List<KeyValuePair<string, ScoreRowUI>>(playerRows);

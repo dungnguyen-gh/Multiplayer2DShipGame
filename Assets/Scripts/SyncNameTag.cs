@@ -5,7 +5,8 @@ using UnityEngine;
 public class SyncNameTag : NetworkBehaviour
 {
     // in hook, only on the server
-    [SyncVar(hook = nameof(OnNameChanged))] public string playerName = "";
+    [SyncVar(hook = nameof(OnNameChanged))] 
+    public string playerName = "";
 
     public TextMeshProUGUI nameText;
 
@@ -37,5 +38,12 @@ public class SyncNameTag : NetworkBehaviour
         {
             nameText.text = playerName;
         }
+    }
+    public override void OnStopServer()
+    {
+        //base.OnStopServer();
+
+        // this player is destroyed on server side
+        GameManager.instance.RemovePlayer(playerName); 
     }
 }

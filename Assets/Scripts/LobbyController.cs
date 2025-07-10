@@ -26,4 +26,11 @@ public class LobbyController : MonoBehaviour
         NetworkManager.singleton.networkAddress = "localhost";
         NetworkManager.singleton.StartClient();
     }
+    private void Update()
+    {
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+    }
 }
