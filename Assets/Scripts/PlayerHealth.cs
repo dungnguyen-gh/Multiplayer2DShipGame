@@ -5,28 +5,35 @@ using Mirror;
 public class PlayerHealth : NetworkBehaviour
 {
     [SyncVar(hook = nameof(OnLivesChanged))]
-    public int lives = 3;
+    public int lives;
+
+    private int maxLives = 3;
 
     public TextMeshProUGUI livesText;
 
-    public override void OnStartLocalPlayer()
+    public override void OnStartServer()
     {
-        UpdateUI();
+        var dmg = GetComponent<ReceiveDamage>();
+        if (dmg != null)
+            maxLives = dmg.GetMaxHealth();
+
+        lives = maxLives;
     }
 
-    // Call this on the server when hit
-    [Server]
-    public void TakeDamage()
+    public override void OnStartClient()
     {
-        if (lives <= 0) return;
+        UpdateUI(); // always sync the UI on spawn
+    }
 
-        lives--;
+    [Server]
+    public void LoseLife()
+    {
+        lives = Mathf.Max(0, lives - 1);
+        Debug.Log($"{name} lost a life. Lives left: {lives}");
 
         if (lives <= 0)
         {
-            // Handle player death
-            Debug.Log($"{name} has died.");
-            NetworkServer.Destroy(gameObject);
+            lives = maxLives; // reset lives on respawn
         }
     }
 
@@ -35,7 +42,7 @@ public class PlayerHealth : NetworkBehaviour
         UpdateUI();
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         if (livesText != null)
         {

@@ -39,6 +39,13 @@ public class ReceiveDamage : NetworkBehaviour
             currentHealth -= amount;
             Debug.Log($"{gameObject.name} took {amount} damage, remaining: {currentHealth}");
 
+            // notify PlayerHealth to lose a life
+            var hp = GetComponent<PlayerHealth>();
+            if (hp != null)
+            {
+                hp.LoseLife();
+            }
+
             if (currentHealth <= 0)
             {
                 if (!string.IsNullOrEmpty(lastShooter))
@@ -53,6 +60,7 @@ public class ReceiveDamage : NetworkBehaviour
                 else
                 {
                     currentHealth = maxHealth;
+
                     RpcRespawn();
                 }
 
@@ -68,17 +76,16 @@ public class ReceiveDamage : NetworkBehaviour
     void RpcRespawn()
     {
         transform.position = initialPosition;
-    }
 
-    int Factorial(int n)
+        PlayerHealth hp = GetComponent<PlayerHealth>();
+        if (hp != null)
+        {
+            hp.UpdateUI();
+        }
+    }
+    [Server]
+    public int GetMaxHealth()
     {
-        if (n <= 1)
-        {
-            return 1;
-        }
-        else
-        {
-            return n * Factorial(n - 1);
-        }
+        return maxHealth;
     }
 }
