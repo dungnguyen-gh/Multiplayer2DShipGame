@@ -46,7 +46,7 @@ public class PlayerHealth : NetworkBehaviour
     {
         if (livesText != null)
         {
-            livesText.text = $"Lives: {lives}";
+            livesText.text = $"{lives}";
         }
     }
 }
