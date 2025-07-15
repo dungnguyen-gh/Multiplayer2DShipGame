@@ -242,6 +242,12 @@ MonoBehaviour:
   maxHealth: 3
   enemyTag: Bullet
   destroyOnDeath: 1
+  respawnText: {fileID: 0}
+  col: {fileID: 0}
+  sprite: {fileID: 0}
+  controller: {fileID: 0}
+  explosionPrefab: {fileID: 6504689796492790140, guid: 08a336e8ccad12446a58b23531862dde, type: 3}
+  blinkMaterial: {fileID: 0}
 --- !u!114 &5979722478762483948
 MonoBehaviour:
   m_ObjectHideFlags: 0

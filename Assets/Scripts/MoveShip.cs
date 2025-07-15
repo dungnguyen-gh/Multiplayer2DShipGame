@@ -30,7 +30,7 @@ public class MoveShip : NetworkBehaviour
     }
     private void ClampPositionToScreen()
     {
-        // get the players current position
+        // get players current position
         Vector3 pos = transform.position;
 
         // convert viewport to world space

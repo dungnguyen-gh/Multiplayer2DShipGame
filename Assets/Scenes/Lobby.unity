@@ -776,7 +776,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1518,6 +1518,7 @@ MonoBehaviour:
   spawnPrefabs:
   - {fileID: 1833721417959780653, guid: 06bd9a7a1f811ba4e8ed3990d3898d73, type: 3}
   - {fileID: 7369217871369739669, guid: 095c118f86a6e1949abff27ce37da0c8, type: 3}
+  - {fileID: 6504689796492790140, guid: 08a336e8ccad12446a58b23531862dde, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2

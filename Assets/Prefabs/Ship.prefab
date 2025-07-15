@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8774210943960306120}
   - component: {fileID: 6695968494639993976}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text_Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 2791644845229762495}
   - component: {fileID: 7058295752949018889}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text_Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -717,6 +717,11 @@ MonoBehaviour:
   maxHealth: 3
   enemyTag: Enemy
   destroyOnDeath: 0
+  col: {fileID: 5041492922725574307}
+  sprite: {fileID: 7763553969115503461}
+  controller: {fileID: 2600051046482015346}
+  explosionPrefab: {fileID: 6504689796492790140, guid: 08a336e8ccad12446a58b23531862dde, type: 3}
+  blinkMaterial: {fileID: 2100000, guid: 46e43cb76d5af654bbdf191fa744053d, type: 2}
 --- !u!114 &1104539019125288385
 MonoBehaviour:
   m_ObjectHideFlags: 0
