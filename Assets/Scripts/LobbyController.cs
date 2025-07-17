@@ -22,10 +22,9 @@ public class LobbyController : MonoBehaviour
         if (!ValidateInputs()) return;
 
         PlayerPrefs.SetString("playerName", nameInput.text);
-        string address = addressInput.text;
-        ushort port;
 
-        if (!ushort.TryParse(portInput.text, out port))
+        string address = addressInput.text;
+        if (!ushort.TryParse(portInput.text, out ushort port))
         {
             SetWarningText("Invalid port number.");
             return;
@@ -36,7 +35,8 @@ public class LobbyController : MonoBehaviour
         if (Transport.active is SimpleWebTransport webTransport)
         {
             webTransport.port = port;
-            Debug.Log($"[Host] Using SimpleWebTransport on {address}:{port}");
+            webTransport.clientUseWss = true; // Important for WebGL HTTPS builds
+            Debug.Log($"[Host] Hosting on wss://{address}:{port}");
         }
         else
         {
@@ -44,7 +44,7 @@ public class LobbyController : MonoBehaviour
             return;
         }
 
-        warningText.text = $"Hosting on {address}:{port}";
+        SetWarningText($"Hosting on wss://{address}:{port}");
         NetworkManager.singleton.StartHost();
     }
     void OnJoin()
@@ -58,10 +58,9 @@ public class LobbyController : MonoBehaviour
         }
 
         PlayerPrefs.SetString("playerName", nameInput.text);
-        string address = addressInput.text;
-        ushort port;
 
-        if (!ushort.TryParse(portInput.text, out port))
+        string address = addressInput.text;
+        if (!ushort.TryParse(portInput.text, out ushort port))
         {
             SetWarningText("Invalid port number.");
             return;
@@ -72,7 +71,8 @@ public class LobbyController : MonoBehaviour
         if (Transport.active is SimpleWebTransport webTransport)
         {
             webTransport.port = port;
-            Debug.Log($"[Join] Connecting to {address}:{port} via SimpleWebTransport");
+            webTransport.clientUseWss = true; // Required for WebGL client from itch.io
+            Debug.Log($"[Join] Connecting to wss://{address}:{port}");
         }
         else
         {
@@ -80,8 +80,7 @@ public class LobbyController : MonoBehaviour
             return;
         }
 
-        warningText.text = $"Connecting to {address}:{port}";
-
+        SetWarningText($"Connecting to wss://{address}:{port}");
         NetworkManager.singleton.StartClient();
     }
     bool ValidateInputs()
