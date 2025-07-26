@@ -13,11 +13,12 @@ public class ReceiveDamage : NetworkBehaviour
 
     private Vector2 initialPosition;
     private string lastShooter = "";
-    private bool isInvincible = false;
+    [SyncVar(hook = nameof(OnInvincibleChanged))] private bool isInvincible = false;
 
     [SerializeField] private Collider2D col;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private MoveShip controller;
+    [SerializeField] private ShootBullets shootBullets;
 
     [SerializeField] private GameObject explosionPrefab;
 
@@ -72,11 +73,9 @@ public class ReceiveDamage : NetworkBehaviour
 
             if (currentHealth <= 0)
             {
-                
+                SpawnExplosion();
                 if (destroyOnDeath)
                 {
-                    SpawnExplosion();
-
                     if (!string.IsNullOrEmpty(lastShooter))
                     {
                         GameManager.instance.RegisterKill(lastShooter);
@@ -85,10 +84,8 @@ public class ReceiveDamage : NetworkBehaviour
                 }
                 else
                 {
-                    SpawnExplosion();
                     currentHealth = maxHealth;
 
- 
                     StartCoroutine(DelayedRespawn());
 
                     var syncNameTag = GetComponent<SyncNameTag>();
@@ -96,11 +93,16 @@ public class ReceiveDamage : NetworkBehaviour
                     {
                         GameManager.instance.ResetPlayerScore(syncNameTag.playerName);
                     }
+                    // reset lives
+                    if (hp != null)
+                    {
+                        hp.ResetLives();
+                    }
                 }
             }
         }
     }
-    
+
     void SpawnExplosion()
     {
         if (explosionPrefab != null)
@@ -114,6 +116,8 @@ public class ReceiveDamage : NetworkBehaviour
     {
         RpcDisableVisual();
 
+        TargetSetPosition(connectionToClient, initialPosition);
+
         for (int i = 3; i >= 1; i--)
         {
             RpcUpdateRespawnText(connectionToClient, $"Respawning in {i}...");
@@ -121,15 +125,7 @@ public class ReceiveDamage : NetworkBehaviour
         }
 
         RpcUpdateRespawnText(connectionToClient, "");
-        RpcRespawn();
-    }
-
-    [ClientRpc]
-    void RpcRespawn()
-    {
-        transform.position = initialPosition;
-
-        RpcEnableVisual();
+        
 
         var hp = GetComponent<PlayerHealth>();
         if (hp != null)
@@ -137,22 +133,19 @@ public class ReceiveDamage : NetworkBehaviour
             hp.UpdateUI();
         }
 
-        StartCoroutine(InvincibilityBlink());
-    }
-    IEnumerator InvincibilityBlink()
-    {
+        RpcEnableVisual();
+
         isInvincible = true;
-        RpcSetMaterial(true);
         yield return new WaitForSeconds(3f);
-        RpcSetMaterial(false);
         isInvincible = false;
     }
-    [ClientRpc]
-    void RpcSetMaterial(bool isBlinking)
+
+    [TargetRpc]
+    void TargetSetPosition(NetworkConnection target, Vector2 position)
     {
-        if (sprite != null && blinkMaterial != null && originalMaterial != null)
-            sprite.material =  isBlinking ? blinkMaterial : originalMaterial;
+        transform.position = position;
     }
+
 
     [ClientRpc]
     void RpcDisableVisual()
@@ -169,6 +162,8 @@ public class ReceiveDamage : NetworkBehaviour
         if (sprite != null) sprite.enabled = isVisible;
         if (controller != null) controller.enabled = isVisible;
         if (col != null) col.enabled = isVisible;
+        if (shootBullets != null) shootBullets.enabled = isVisible;
+        
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(isVisible);
@@ -180,10 +175,22 @@ public class ReceiveDamage : NetworkBehaviour
     {
         HUDManager.instance?.ShowMessage(message);
     }
-    
+
     [Server]
     public int GetMaxHealth()
     {
         return maxHealth;
+    }
+    
+    // Hook for SyncVar isInvincible
+    void OnInvincibleChanged(bool oldValue, bool newValue)
+    {
+        SetMaterial(newValue);
+    }
+
+    void SetMaterial(bool isBlinking)
+    {
+        if (sprite != null && blinkMaterial != null && originalMaterial != null)
+            sprite.material = isBlinking ? blinkMaterial : originalMaterial;
     }
 }

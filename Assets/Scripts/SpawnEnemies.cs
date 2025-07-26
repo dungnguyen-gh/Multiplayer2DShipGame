@@ -7,6 +7,7 @@ public class SpawnEnemies : NetworkBehaviour
     [SerializeField] private float spawnInterval = 1.5f;
     public override void OnStartServer()
     {
+        Debug.Log("EnemySpawner OnStartServer: Active = " + gameObject.activeInHierarchy);
         InvokeRepeating("Spawn", 1f, spawnInterval);
     }
     void Spawn()

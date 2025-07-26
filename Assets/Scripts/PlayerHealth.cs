@@ -30,11 +30,12 @@ public class PlayerHealth : NetworkBehaviour
     {
         lives = Mathf.Max(0, lives - 1);
         Debug.Log($"{name} lost a life. Lives left: {lives}");
+    }
 
-        if (lives <= 0)
-        {
-            lives = maxLives; // reset lives on respawn
-        }
+    [Server]
+    public void ResetLives()
+    {
+        lives = maxLives;
     }
 
     void OnLivesChanged(int oldLives, int newLives)

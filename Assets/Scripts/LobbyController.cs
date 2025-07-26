@@ -21,10 +21,15 @@ public class LobbyController : MonoBehaviour
     {
         if (!ValidateInputs()) return;
 
-        PlayerPrefs.SetString("playerName", nameInput.text);
+        // Trim inputs to remove accidental spaces
+        string playerName = nameInput.text.Trim();
+        string address = addressInput.text.Trim();
+        string portText = portInput.text.Trim();
 
-        string address = addressInput.text;
-        if (!ushort.TryParse(portInput.text, out ushort port))
+        PlayerPrefs.SetString("playerName", playerName);
+        Debug.Log($"LobbyController: Saved player name '{playerName}' to PlayerPrefs");
+
+        if (!ushort.TryParse(portText, out ushort port))
         {
             SetWarningText("Invalid port number.");
             return;
@@ -35,7 +40,7 @@ public class LobbyController : MonoBehaviour
         if (Transport.active is SimpleWebTransport webTransport)
         {
             webTransport.port = port;
-            webTransport.clientUseWss = true; // Important for WebGL HTTPS builds
+            webTransport.clientUseWss = true; // Ensure secure WebSocket for WebGL
             Debug.Log($"[Host] Hosting on wss://{address}:{port}");
         }
         else
@@ -57,10 +62,15 @@ public class LobbyController : MonoBehaviour
             return;
         }
 
-        PlayerPrefs.SetString("playerName", nameInput.text);
+        // Trim inputs
+        string playerName = nameInput.text.Trim();
+        string address = addressInput.text.Trim();
+        string portText = portInput.text.Trim();
 
-        string address = addressInput.text;
-        if (!ushort.TryParse(portInput.text, out ushort port))
+        PlayerPrefs.SetString("playerName", playerName);
+        Debug.Log($"LobbyController: Saved player name '{playerName}' to PlayerPrefs");
+
+        if (!ushort.TryParse(portText, out ushort port))
         {
             SetWarningText("Invalid port number.");
             return;
@@ -71,7 +81,7 @@ public class LobbyController : MonoBehaviour
         if (Transport.active is SimpleWebTransport webTransport)
         {
             webTransport.port = port;
-            webTransport.clientUseWss = true; // Required for WebGL client from itch.io
+            webTransport.clientUseWss = true; // Required for WebGL secure connection
             Debug.Log($"[Join] Connecting to wss://{address}:{port}");
         }
         else

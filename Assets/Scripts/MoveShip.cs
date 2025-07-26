@@ -38,7 +38,7 @@ public class MoveShip : NetworkBehaviour
         Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
 
         // padding to make sure the ship not hit the border
-        float padding = 1f;
+        float padding = 1.5f;
 
         pos.x = Mathf.Clamp(pos.x, bottomLeft.x + padding, topRight.x - padding);
         pos.y = Mathf.Clamp(pos.y, bottomLeft.y + padding, topRight.y - padding);
