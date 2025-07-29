@@ -18,15 +18,19 @@ public class MoveShip : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
 
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+
+        if (MessageManager.instance.isInputFocus()) return; 
+        
         Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         transform.Translate((Vector3)input * speed * Time.deltaTime);
 
         ClampPositionToScreen();
         
-        if (Input.GetKey("escape"))
-        {
-            Application.Quit();
-        }
+        
     }
     private void ClampPositionToScreen()
     {

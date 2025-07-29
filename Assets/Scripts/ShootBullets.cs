@@ -8,6 +8,7 @@ public class ShootBullets : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) return;
+        if (MessageManager.instance.isInputFocus()) return; 
         if (Input.GetKeyDown(KeyCode.Space)) CmdShoot();
     }
     [Command]

@@ -3248,6 +3248,7 @@ MonoBehaviour:
   enemy: {fileID: 7369217871369739669, guid: 095c118f86a6e1949abff27ce37da0c8, type: 3}
   explosion: {fileID: 6504689796492790140, guid: 08a336e8ccad12446a58b23531862dde, type: 3}
   RowUI: {fileID: 7842115750270938773, guid: 2aa82402d931b9f4594e0d6fdb8eb56b, type: 3}
+  MessageUI: {fileID: 7842115750270938773, guid: 0755f41dc7ca749f788478af4d04bbca, type: 3}
   gameManager: {fileID: 2514831842496746678, guid: 5900f57b62ec0462d9339995ce30d812, type: 3}
   enemySpawner: {fileID: 7909074540083236560, guid: fd86136ac879345b69d119b9f26d0ac9, type: 3}
 --- !u!4 &2029089077

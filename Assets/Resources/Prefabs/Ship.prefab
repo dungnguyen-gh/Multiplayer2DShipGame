@@ -500,6 +500,7 @@ GameObject:
   - component: {fileID: 2432192421025906253}
   - component: {fileID: 9032860863324906254}
   - component: {fileID: 6595706515407319237}
+  - component: {fileID: -1960934195855631249}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Ship
@@ -720,6 +721,7 @@ MonoBehaviour:
   col: {fileID: 5041492922725574307}
   sprite: {fileID: 7763553969115503461}
   controller: {fileID: 2600051046482015346}
+  shootBullets: {fileID: 0}
   explosionPrefab: {fileID: 6504689796492790140, guid: 08a336e8ccad12446a58b23531862dde, type: 3}
   blinkMaterial: {fileID: 2100000, guid: 46e43cb76d5af654bbdf191fa744053d, type: 2}
 --- !u!114 &1104539019125288385
@@ -822,6 +824,22 @@ MonoBehaviour:
   syncInterval: 0
   lives: 3
   livesText: {fileID: 6695968494639993976}
+--- !u!114 &-1960934195855631249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7259926142428903505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81290ecce8b14e048f27c16032bbe9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  syncNameTag: {fileID: 2432192421025906253}
 --- !u!1 &8899325053261115690
 GameObject:
   m_ObjectHideFlags: 0
