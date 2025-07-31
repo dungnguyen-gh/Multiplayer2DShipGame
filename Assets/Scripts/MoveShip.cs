@@ -18,10 +18,6 @@ public class MoveShip : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
 
-        if (Input.GetKey("escape"))
-        {
-            Application.Quit();
-        }
 
         if (MessageManager.instance.isInputFocus()) return; 
         
